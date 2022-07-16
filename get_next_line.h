@@ -6,7 +6,7 @@
 /*   By: ssergiu <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 09:02:26 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/06/30 12:31:57 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/07/16 17:10:01 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,8 @@
 # include <fcntl.h>
 
 char		*get_next_line(int fd);
+size_t      ft_strlen(const char *str);
+char	    *ft_strjoin(char const *s1, char const *s2);
+char        *get_one_line(int fd, char *buffer);
 
 #endif
