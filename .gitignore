@@ -1,4 +1,4 @@
 gnlTester/
 *.vim
 test
-*.swp
+.*.swp
