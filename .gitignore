@@ -1,4 +1,5 @@
 gnlTester/
+.gdb_history
 *.vim
 test
 .*.swp
