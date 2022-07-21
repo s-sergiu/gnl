@@ -2,8 +2,6 @@ let SessionLoad = 1
 if &cp | set nocp | endif
 nnoremap 	 gt
 map Q gq
-tnoremap W w
-nnoremap W w
 let s:cpo_save=&cpo
 set cpo&vim
 xmap gx <Plug>NetrwBrowseXVis
@@ -46,8 +44,8 @@ else
   set shortmess=aoO
 endif
 badd +0 get_next_line.c
-badd +0 get_next_line_utils.c
 badd +0 test.c
+badd +0 get_next_line_utils.c
 badd +0 test.txt
 argglobal
 %argdel
@@ -508,11 +506,11 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 1
-normal! 0
+normal! 04|
 wincmd w
 argglobal
 if bufexists(fnamemodify("get_next_line_utils.c", ":p")) | buffer get_next_line_utils.c | else | edit get_next_line_utils.c | endif
-balt test.c
+balt get_next_line.c
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -645,11 +643,11 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 83 - ((80 * winheight(0) + 41) / 82)
+let s:l = 1 - ((0 * winheight(0) + 41) / 82)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 83
+keepjumps 1
 normal! 0
 wincmd w
 argglobal
@@ -787,14 +785,14 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 26 - ((25 * winheight(0) + 41) / 82)
+let s:l = 1 - ((0 * winheight(0) + 41) / 82)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 26
+keepjumps 1
 normal! 0
 wincmd w
-4wincmd w
+5wincmd w
 exe 'vert 1resize ' . ((&columns * 91 + 182) / 364)
 exe '2resize ' . ((&lines * 41 + 42) / 84)
 exe 'vert 2resize ' . ((&columns * 90 + 182) / 364)
