@@ -6,7 +6,7 @@
 /*   By: ssergiu <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 09:02:26 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/07/21 17:55:24 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/07/22 02:29:55 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <fcntl.h>
 
 char		*get_next_line(int fd);
-char        *get_one_line(int fd, char *buffer);
-char        *clean_buffer(char *buffer);
+char        *get_one_line(int fd);
 int         check_input(int fd);
+char        *read_line(int fd);
 int         has_newline(char *buffer);
 
 #endif
