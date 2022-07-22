@@ -3,3 +3,4 @@ gnlTester/
 *.vim
 test
 .*.swp
+*.dYSM*
