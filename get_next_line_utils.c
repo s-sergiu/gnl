@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/07/22 13:04:53 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/07/26 19:01:50 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s1)
 	i = -1;
 	s = malloc((ft_strlen((char *)s1) + 1) * sizeof(char));
 	if (!s)
-		return (NULL);
+		return (0);
 	while (++i < (int)(ft_strlen((char *)s1) + 1))
 		s[i] = s1[i];
 	return (s);
@@ -65,7 +65,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	s_length = ft_strlen((char *)s);
 	if (start >= s_length)
-		return (ft_calloc(1, 1));
+		return ("");
 	if (len > s_length - start)
 	{
 		str = (char *)malloc((s_length - start + 1) * sizeof(char));
@@ -73,8 +73,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	else
 		str = (char *)malloc((len + 1) * sizeof(char));
-	if (str == NULL)
-		return (NULL);
+	if (!str)
+		return (0);
 	i = -1;
 	while (i < (int)len && s[++i] != '\0')
 		str[i] = s[start + i];
@@ -154,6 +154,8 @@ char    *read_line(int fd)
     }
     buffer[bytes] = '\0';
     line = ft_strdup(buffer);
+    if (!line)
+        return (0);
     while (bytes > 0)
     {
         bytes = read(fd, buffer, BUFFER_SIZE);
@@ -185,8 +187,7 @@ char    *get_one_line(int fd)
 
     //read line
     line = NULL;
-    if (temp == 0 || temp[0] == '\0')
-        temp = read_line(fd);
+    temp = read_line(fd);
     if (!temp)
         return (0);
     //transfer buffer into temp
@@ -198,10 +199,8 @@ char    *get_one_line(int fd)
         line = ft_substr(line, 0, get_newline_pos(line));
         free(temp2);
         temp2 = temp;
-        temp = ft_substr(temp, get_newline_pos(temp), ft_strlen(temp));;
+        temp = ft_substr(temp, get_newline_pos(temp), ft_strlen(temp));
         free(temp2);
     }
-
     return (line);
 }
-
