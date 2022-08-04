@@ -6,20 +6,19 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/07/26 19:01:50 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/04 21:50:32 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-
-size_t ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(str[i] != '\0')
-        i++;
-    return (i);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
 char	*ft_strdup(const char *s1)
@@ -28,88 +27,12 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = -1;
-	s = malloc((ft_strlen((char *)s1) + 1) * sizeof(char));
+	s = malloc((ft_strlen(s1) + 1) * sizeof(char));
 	if (!s)
-		return (0);
-	while (++i < (int)(ft_strlen((char *)s1) + 1))
+		return (NULL);
+	while (++i < (int)(ft_strlen(s1) + 1))
 		s[i] = s1[i];
 	return (s);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	int	i;
-
-	i = -1;
-	while (++i < (int)n)
-		((char *)s)[i] = 0;
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, size * count);
-	return (ptr);
-}
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*str;
-	int		i;
-	size_t	s_length;
-
-	if (!s)
-		return (NULL);
-	s_length = ft_strlen((char *)s);
-	if (start >= s_length)
-		return ("");
-	if (len > s_length - start)
-	{
-		str = (char *)malloc((s_length - start + 1) * sizeof(char));
-		len = s_length - start;
-	}
-	else
-		str = (char *)malloc((len + 1) * sizeof(char));
-	if (!str)
-		return (0);
-	i = -1;
-	while (i < (int)len && s[++i] != '\0')
-		str[i] = s[start + i];
-	str[i] = 0;
-	return (str);
-}
-
-int get_newline_pos(char *string)
-{
-    int i;
-
-    i = 0;
-    while (string[i] != '\0')
-        if (string[i++] == '\n')
-            return (i);
-    return (0);
-}
-
-int has_newline(char *string)
-{
-    int i;
-
-    i = 0;
-    while (string[i] != '\0')
-        if (string[i++] == '\n')
-            return (1);
-    return (0);
-}
-
-int check_input(int fd)
-{
-	if (read(fd, 0, 0) == -1 || fd < 0 || BUFFER_SIZE <= 0
-			|| (read(fd, 0, 0) == -1))
-		return (0);
-    return (1);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -121,8 +44,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	s1_length = ft_strlen((char *)(s1));
-	s2_length = ft_strlen((char *)(s2));
+	s1_length = ft_strlen(s1);
+	s2_length = ft_strlen(s2);
 	i = -1;
 	str = malloc(s1_length + s2_length + 1);
 	if (!str)
@@ -136,71 +59,47 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char    *read_line(int fd)
+int has_newline(char *buffer, int flag)
 {
-    int bytes;
-    char *buffer;
-    char *line;
-    char *temp;
+    int i;
 
-    buffer = (char *)malloc(sizeof(*buffer) * BUFFER_SIZE + 1);
-    if (!buffer)
-        return (0);
-    bytes = read(fd, buffer, BUFFER_SIZE);
-    if (bytes <= 0)
-    {
-        free(buffer);
-        return (0);
-    }
-    buffer[bytes] = '\0';
-    line = ft_strdup(buffer);
-    if (!line)
-        return (0);
-    while (bytes > 0)
-    {
-        bytes = read(fd, buffer, BUFFER_SIZE);
-        if (bytes <= 0)
-        {
-            free(buffer);
-            return (line);
-        }
-        buffer[bytes] = '\0';
-        temp = line;
-        line = ft_strjoin(line, buffer);
-        free(temp);
-        if (has_newline(line))
-            break;
-    }
-    free(buffer);
-    return (line);
-    
-    // concatenate
-    // check if its newline
+    i = 0;
+    while (buffer[i] != '\0')
+        if (buffer[i++] == '\n')
+            if (flag)
+                return (i);
+            else 
+                return (0);
+    return (1);
+}
 
+void format_stash_and_line(char **line, char **stash)
+{
+    //malloc my stash
+    *stash = ft_strdup(*line + has_newline(*line, 1));
+    (*line)[has_newline(*line, 1)] = '\0';
+    //cut from line into stash what's after newline
+    //null terminate after newline the line;
+    return ;
 }
 
 char    *get_one_line(int fd)
 {
-    char            *line;
-    static char     *temp;
-    char            *temp2;
+    char    *buffer;
+    char    *result;
+    int     bytes;
 
-    //read line
-    line = NULL;
-    temp = read_line(fd);
-    if (!temp)
-        return (0);
-    //transfer buffer into temp
-    //move into line once it has \n
-    line = ft_strdup(temp);
-    if (has_newline(temp))
+    buffer = (char *)malloc(sizeof(*buffer) * BUFFER_SIZE + 1);
+    bytes = read(fd, buffer, BUFFER_SIZE);
+    buffer[bytes] = 0;
+    result = ft_strjoin("", buffer);
+    if (bytes == 0)
+        return ("");
+    while (has_newline(buffer, 0))
     {
-        temp2 = line;
-        line = ft_substr(line, 0, get_newline_pos(line));
-        free(temp2);
-        temp2 = temp;
-        temp = ft_substr(temp, get_newline_pos(temp), ft_strlen(temp));
-        free(temp2);
+        bytes = read(fd,buffer, BUFFER_SIZE);
+        buffer[bytes] = 0;
+        result = ft_strjoin(result, buffer);
     }
-    return (line);
+    return (result);
 }
