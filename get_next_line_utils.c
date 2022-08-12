@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/04 21:50:32 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/12 17:48:02 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -59,47 +59,57 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-int has_newline(char *buffer, int flag)
+int get_newline_pos(char *buffer)
 {
     int i;
 
     i = 0;
     while (buffer[i] != '\0')
         if (buffer[i++] == '\n')
-            if (flag)
-                return (i);
-            else 
-                return (0);
-    return (1);
+            return (i);
+    return (i);
 }
 
-void format_stash_and_line(char **line, char **stash)
+int has_newline(char *buffer)
 {
-    //malloc my stash
-    *stash = ft_strdup(*line + has_newline(*line, 1));
-    (*line)[has_newline(*line, 1)] = '\0';
-    //cut from line into stash what's after newline
-    //null terminate after newline the line;
-    return ;
+    int i;
+
+    i = 0;
+    while (buffer[i] != '\0')
+        if (buffer[i++] == '\n')
+            return (1);
+    return (0);
+}
+
+char    *format_stash_and_line(char **stash)
+{
+    char    *line;
+
+    line = ft_strdup(*stash); //leak #1
+    line[get_newline_pos(line)] = 0;
+    *stash = *stash + get_newline_pos(*stash);
+    return (line);
 }
 
 char    *get_one_line(int fd)
 {
-    char    *buffer;
     char    *result;
+    char    *buffer;
     int     bytes;
 
+    result = ft_strdup("");
     buffer = (char *)malloc(sizeof(*buffer) * BUFFER_SIZE + 1);
     bytes = read(fd, buffer, BUFFER_SIZE);
     buffer[bytes] = 0;
-    result = ft_strjoin("", buffer);
-    if (bytes == 0)
-        return ("");
-    while (has_newline(buffer, 0))
+    result = ft_strjoin(result, buffer);
+    while (!has_newline(buffer))
     {
-        bytes = read(fd,buffer, BUFFER_SIZE);
+        bytes = read(fd, buffer, BUFFER_SIZE);
+        if (bytes == 0)
+            return (result);
         buffer[bytes] = 0;
-        result = ft_strjoin(result, buffer);
+        result = ft_strjoin(result, buffer); //leak #2
     }
+    free(buffer);
     return (result);
 }
