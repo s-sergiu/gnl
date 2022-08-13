@@ -6,10 +6,17 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:25:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/13 21:18:18 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/13 23:34:37 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+
+void    format_stash_and_line(char **line, char **stash)
+{
+    *line = ft_strdup(*stash); //leak #1
+    (*line)[get_newline_pos(*line)] = 0;
+    *stash = *stash + get_newline_pos(*stash);
+}
 
 int check_input(int fd)
 {
@@ -17,13 +24,7 @@ int check_input(int fd)
         return (0);
     return (1);
 }
-/*
- check if reaches end of file;
-    read until it reaches eof or newline;
- step1: get one line - until it reaches newline or eof
- step2: format line and stash
- step3: return line;
-*/
+
 char *get_next_line(int fd)
 {
     static char *stash;
@@ -34,9 +35,13 @@ char *get_next_line(int fd)
     if (!stash)
         stash = get_one_line(fd);
     else
-        stash = ft_strjoin(stash, get_one_line(fd));
-    format_stash_and_line(&line, &stash);
-    if (line[0] == 0)
+        stash = ft_strjoin(stash, get_one_line(fd)); //leak #03
+    if (stash[0] == 0)
+    {
+        free(stash);
+        stash = NULL;
         return (0);
+    }
+    format_stash_and_line(&line, &stash);
     return (line);
 }

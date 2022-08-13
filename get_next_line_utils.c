@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/13 21:19:04 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/13 23:32:12 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -81,13 +81,6 @@ int has_newline(char *buffer)
     return (0);
 }
 
-void    format_stash_and_line(char **line, char **stash)
-{
-    *line = ft_strdup(*stash); //leak #1
-    (*line)[get_newline_pos(*line)] = 0;
-    *stash = *stash + get_newline_pos(*stash);
-}
-
 char    *get_one_line(int fd)
 {
     char    *result;
@@ -101,7 +94,10 @@ char    *get_one_line(int fd)
     {
         bytes = read(fd, buffer, BUFFER_SIZE);
         if (bytes == 0)
+        {
+            free(buffer);
             return (result);
+        }
         buffer[bytes] = 0;
         temp = result;
         result = ft_strjoin(result, buffer); //leak #2

@@ -13,7 +13,7 @@
 int main(void)
 {
 	int fd;
-	fd = open("test.txt", O_RDWR);
+	fd = open("gnlTester/files/nl", O_RDWR);
 	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+    system("leaks test");
 }
