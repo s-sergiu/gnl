@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/12 17:48:02 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/13 21:19:04 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -64,7 +64,7 @@ int get_newline_pos(char *buffer)
     int i;
 
     i = 0;
-    while (buffer[i] != '\0')
+    while (buffer[i] != 0)
         if (buffer[i++] == '\n')
             return (i);
     return (i);
@@ -75,20 +75,17 @@ int has_newline(char *buffer)
     int i;
 
     i = 0;
-    while (buffer[i] != '\0')
+    while (buffer[i] != 0)
         if (buffer[i++] == '\n')
             return (1);
     return (0);
 }
 
-char    *format_stash_and_line(char **stash)
+void    format_stash_and_line(char **line, char **stash)
 {
-    char    *line;
-
-    line = ft_strdup(*stash); //leak #1
-    line[get_newline_pos(line)] = 0;
+    *line = ft_strdup(*stash); //leak #1
+    (*line)[get_newline_pos(*line)] = 0;
     *stash = *stash + get_newline_pos(*stash);
-    return (line);
 }
 
 char    *get_one_line(int fd)
@@ -96,19 +93,19 @@ char    *get_one_line(int fd)
     char    *result;
     char    *buffer;
     int     bytes;
+    char    *temp;
 
     result = ft_strdup("");
     buffer = (char *)malloc(sizeof(*buffer) * BUFFER_SIZE + 1);
-    bytes = read(fd, buffer, BUFFER_SIZE);
-    buffer[bytes] = 0;
-    result = ft_strjoin(result, buffer);
-    while (!has_newline(buffer))
+    while (!has_newline(result))
     {
         bytes = read(fd, buffer, BUFFER_SIZE);
         if (bytes == 0)
             return (result);
         buffer[bytes] = 0;
+        temp = result;
         result = ft_strjoin(result, buffer); //leak #2
+        free(temp);
     }
     free(buffer);
     return (result);

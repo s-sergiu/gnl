@@ -6,7 +6,7 @@
 /*   By: ssergiu <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 09:02:26 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/12 17:47:17 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/13 21:16:26 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int         check_input(int fd);
 char        *ft_strdup(const char *s1);
 int         has_newline(char *buffer);
 int         get_newline_pos(char *buffer);
-char        *format_stash_and_line(char **stash);
+void        format_stash_and_line(char **line, char **stash);
+void        *ft_calloc(size_t count, size_t size);
 
 #endif
