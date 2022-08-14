@@ -13,7 +13,11 @@
 int main(void)
 {
 	int fd;
-	fd = open("gnlTester/files/nl", O_RDWR);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+    char *tmp;
+	fd = open("gnlTester/files/multiple_nlx5", O_RDWR);
+
+    tmp = get_next_line(fd);
+    free(tmp);
+    tmp = get_next_line(fd);
+    free(tmp);
 }

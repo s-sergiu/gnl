@@ -6,7 +6,7 @@
 /*   By: ssergiu <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 09:02:26 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/14 16:39:58 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/14 19:52:48 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 42
 # endif
 
 size_t      ft_strlen(const char *str);
@@ -30,7 +30,6 @@ int         check_input(int fd);
 char        *ft_strdup(const char *s1);
 int         has_newline(char *buffer);
 int         get_newline_pos(char *buffer);
-void        format_stash_and_line(char **line, char **stash);
-void        *ft_calloc(size_t count, size_t size);
+char        *format_stash_and_line(char **stash);
 
 #endif

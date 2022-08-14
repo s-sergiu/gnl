@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/14 16:42:24 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:57:32 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -83,27 +83,4 @@ int has_newline(char *buffer)
         if (buffer[i++] == '\n')
             return (1);
     return (0);
-}
-
-char    *get_one_line(int fd)
-{
-    char    *result;
-    char    *buffer;
-    int     bytes;
-
-    result = ft_strdup("");
-    buffer = (char *)malloc(sizeof(*buffer) * BUFFER_SIZE + 1);
-    while (!has_newline(result))
-    {
-        bytes = read(fd, buffer, BUFFER_SIZE);
-        if (bytes == 0)
-        {
-            free(buffer);
-            return (result);
-        }
-        buffer[bytes] = 0;
-        result = ft_strjoin(result, buffer, 2); //leak #2
-    }
-    free(buffer);
-    return (result);
 }
