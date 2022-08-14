@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/13 23:32:12 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/14 16:42:24 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -35,7 +35,7 @@ char	*ft_strdup(const char *s1)
 	return (s);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2, int flag)
 {
 	char	*str;
 	int		i;
@@ -56,6 +56,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (++i < (int)s2_length)
 		str[i + s1_length] = s2[i];
 	str[i + s1_length] = 0;
+    if (flag == 1)
+        free((char *)s2);
+    if (flag == 2)
+        free((char *)s1);
 	return (str);
 }
 
@@ -86,7 +90,6 @@ char    *get_one_line(int fd)
     char    *result;
     char    *buffer;
     int     bytes;
-    char    *temp;
 
     result = ft_strdup("");
     buffer = (char *)malloc(sizeof(*buffer) * BUFFER_SIZE + 1);
@@ -99,9 +102,7 @@ char    *get_one_line(int fd)
             return (result);
         }
         buffer[bytes] = 0;
-        temp = result;
-        result = ft_strjoin(result, buffer); //leak #2
-        free(temp);
+        result = ft_strjoin(result, buffer, 2); //leak #2
     }
     free(buffer);
     return (result);

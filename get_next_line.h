@@ -6,7 +6,7 @@
 /*   By: ssergiu <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 09:02:26 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/13 23:10:26 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/14 16:39:58 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # endif
 
 size_t      ft_strlen(const char *str);
-char        *ft_strjoin(char const *s1, char const *s2);
+char        *ft_strjoin(char const *s1, char const *s2, int flag);
 char		*get_next_line(int fd);
 char        *get_one_line(int fd);
 int         check_input(int fd);

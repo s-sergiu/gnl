@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:25:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/13 23:34:37 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/14 16:44:08 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -29,13 +29,14 @@ char *get_next_line(int fd)
 {
     static char *stash;
     char        *line;
+    char        *tmp;
 
     if (!check_input(fd))
         return (0);
     if (!stash)
         stash = get_one_line(fd);
     else
-        stash = ft_strjoin(stash, get_one_line(fd)); //leak #03
+        stash = ft_strjoin(stash, get_one_line(fd), 1); //leak #03
     if (stash[0] == 0)
     {
         free(stash);

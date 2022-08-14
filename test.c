@@ -15,5 +15,5 @@ int main(void)
 	int fd;
 	fd = open("gnlTester/files/nl", O_RDWR);
 	printf("%s", get_next_line(fd));
-    system("leaks test");
+	printf("%s", get_next_line(fd));
 }
