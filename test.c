@@ -14,10 +14,19 @@ int main(void)
 {
 	int fd;
     char *tmp;
-	fd = open("gnlTester/files/multiple_nlx5", O_RDWR);
+	fd = open("test.txt", O_RDWR);
 
-    tmp = get_next_line(fd);
-    free(tmp);
-    tmp = get_next_line(fd);
-    free(tmp);
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
 }

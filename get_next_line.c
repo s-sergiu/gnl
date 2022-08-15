@@ -6,27 +6,29 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:25:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/14 20:23:39 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/15 15:55:34 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char    *format_stash_and_line(char **stash)
+char    *get_line(char *stash)
 {
     char    *line;
-    char    *tmp;
 
-    tmp = *stash;
-    line = ft_strjoin(*stash, "", 0); 
+    line = ft_strjoin(stash, "", 0); 
     line[get_newline_pos(line)] = 0;
-    *stash = *stash + get_newline_pos(*stash); //leak
-    *stash = ft_strdup(*stash);
-    free(tmp);
-    free(*stash);
     return (line);
 }
 
-char    *get_one_line(int fd)
+char    *get_rest(char *stash)
+{
+    char    *rest;
+
+    rest = ft_strdup(stash + get_newline_pos(stash)); // LEAK 
+    return (rest);
+}
+
+char    *read_line(int fd)
 {
     char    *result;
     char    *buffer;
@@ -58,21 +60,24 @@ int check_input(int fd)
 
 char *get_next_line(int fd)
 {
-    static char *stash;
+    char        *stash;
     char        *line;
+    static char *rest;
 
     if (!check_input(fd))
         return (0);
-    if (!stash)
-        stash = get_one_line(fd);
+    if (!rest)
+        stash = read_line(fd);
     else
-        stash = ft_strjoin(stash, get_one_line(fd), 1);
+        stash = ft_strjoin(rest, read_line(fd), 1);
     if (stash[0] == 0)
     {
         free(stash);
         stash = NULL;
         return (0);
     }
-    line = format_stash_and_line(&stash); // leak
+    line = get_line(stash);
+    rest = get_rest(stash);
+    free(stash);
     return (line);
 }
