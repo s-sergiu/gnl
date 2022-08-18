@@ -6,7 +6,7 @@
 /*   By: ssergiu <ssergiu@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 17:06:23 by ssergiu           #+#    #+#             */
-/*   Updated: 2022/08/15 16:46:28 by ssergiu          ###   ########.fr       */
+/*   Updated: 2022/08/15 19:00:34 by ssergiu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -56,31 +56,31 @@ char	*ft_strjoin(char const *s1, char const *s2, int flag)
 	while (++i < (int)s2_length)
 		str[i + s1_length] = s2[i];
 	str[i + s1_length] = 0;
-    if (flag == 1 || flag == 3)
-        free((char *)s2);
-    if (flag == 2 || flag == 3)
-        free((char *)s1);
+	if (flag == 1 || flag == 3)
+		free((char *)s2);
+	if (flag == 2 || flag == 3)
+		free((char *)s1);
 	return (str);
 }
 
-int get_newline_pos(char *buffer)
+int	get_newline_pos(char *buffer)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (buffer[i] != 0)
-        if (buffer[i++] == '\n')
-            return (i);
-    return (i);
+	i = 0;
+	while (buffer[i] != 0)
+		if (buffer[i++] == '\n')
+			return (i);
+	return (i);
 }
 
-int has_newline(char *buffer)
+int	has_newline(char *buffer)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (buffer[i] != 0)
-        if (buffer[i++] == '\n')
-            return (1);
-    return (0);
+	i = 0;
+	while (buffer[i] != 0)
+		if (buffer[i++] == '\n')
+			return (1);
+	return (0);
 }
