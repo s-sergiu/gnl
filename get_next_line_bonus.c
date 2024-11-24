@@ -5,7 +5,7 @@ char	*get_line(char *stash)
 {
 	char	*line;
 
-	line = ft_strjoin(stash, "", 0);
+	line = ft_strjoin_gnl(stash, "", 0);
 	line[get_newline_pos(line)] = 0;
 	return (line);
 }
@@ -37,7 +37,7 @@ char	*read_line(int fd)
 			return (result);
 		}
 		buffer[bytes] = 0;
-		result = ft_strjoin(result, buffer, 2);
+		result = ft_strjoin_gnl(result, buffer, 2);
 	}
 	free(buffer);
 	return (result);
@@ -61,7 +61,7 @@ char	*get_next_line(int fd)
 	if (!rest[fd])
 		stash = read_line(fd);
 	else
-		stash = ft_strjoin(rest[fd], read_line(fd), 3);
+		stash = ft_strjoin_gnl(rest[fd], read_line(fd), 3);
 	if (!stash || stash[0] == 0)
 	{
 		free(stash);

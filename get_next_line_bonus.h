@@ -12,7 +12,7 @@
 # endif
 
 size_t		ft_strlen(const char *str);
-char		*ft_strjoin(char const *s1, char const *s2, int flag);
+char		*ft_strjoin_gnl(char const *s1, char const *s2, int flag);
 char		*get_next_line(int fd);
 char		*read_line(int fd);
 int			check_input(int fd);

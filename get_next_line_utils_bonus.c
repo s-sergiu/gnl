@@ -25,7 +25,7 @@ char	*ft_strdup(const char *s1)
 	return (s);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2, int flag)
+char	*ft_strjoin_gnl(char const *s1, char const *s2, int flag)
 {
 	char	*str;
 	int		i;
